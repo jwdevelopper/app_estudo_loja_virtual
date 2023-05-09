@@ -5,7 +5,9 @@ import 'package:gerencia_estado_provider/models/product_list.dart';
 import 'package:gerencia_estado_provider/pages/cart_page.dart';
 import 'package:gerencia_estado_provider/pages/orders_page.dart';
 import 'package:gerencia_estado_provider/pages/product_detail.page.dart';
+import 'package:gerencia_estado_provider/pages/product_form_page.dart';
 import 'package:gerencia_estado_provider/pages/product_overview.page.dart';
+import 'package:gerencia_estado_provider/pages/product_page.dart';
 import 'package:gerencia_estado_provider/utils/app.routes.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +59,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.PRODUCT_DETAIL: (context) => ProductDetailPage(),
           AppRoutes.CART: (context) => CartPage(),
           AppRoutes.ORDERS: (context) => OrdersPage(),
+          AppRoutes.PRODUCTS: (context) => ProductPage(),
+          AppRoutes.PRODUCT_FORM: (context) => ProductFormPage(),
         },
       ),
     );

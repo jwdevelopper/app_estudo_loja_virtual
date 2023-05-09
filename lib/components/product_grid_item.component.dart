@@ -5,8 +5,7 @@ import 'package:gerencia_estado_provider/pages/product_detail.page.dart';
 import 'package:gerencia_estado_provider/utils/app.routes.dart';
 import 'package:provider/provider.dart';
 
-class ProductItem extends StatelessWidget {
-
+class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
@@ -19,7 +18,8 @@ class ProductItem extends StatelessWidget {
             // Navigator.of(context).push(MaterialPageRoute(
             //   builder: (ctx) => ProductDetailPage(product: product),
             // ));
-            Navigator.of(context).pushNamed(AppRoutes.PRODUCT_DETAIL,arguments: product);
+            Navigator.of(context)
+                .pushNamed(AppRoutes.PRODUCT_DETAIL, arguments: product);
           },
           child: Image.network(
             product.imageUrl,
@@ -40,15 +40,26 @@ class ProductItem extends StatelessWidget {
                 product.toggleFavorite();
               },
               icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border
-              ),
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
           trailing: IconButton(
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Produto adicionado com sucesso!'),
+                  duration: Duration(seconds: 3),
+                  action: SnackBarAction(
+                    label: 'Desfazer',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
               cart.addItem(product);
-              print(cart.itemsCount);
             },
             icon: Icon(Icons.shopping_cart),
             color: Theme.of(context).colorScheme.tertiary,
