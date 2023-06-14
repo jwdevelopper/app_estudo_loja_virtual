@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerencia_estado_provider/models/auth.dart';
 import 'package:gerencia_estado_provider/models/cart.dart';
 import 'package:gerencia_estado_provider/models/product.dart';
 import 'package:gerencia_estado_provider/pages/product_detail.page.dart';
@@ -10,6 +11,7 @@ class ProductGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -37,7 +39,10 @@ class ProductGridItem extends StatelessWidget {
             //e com isso esse child sera imutavel
             builder: (ctx, product, _) => IconButton(
               onPressed: () {
-                product.toggleFavorite();
+                product.toggleFavorite(
+                  auth.token ?? '',
+                  auth.userId ?? '',
+                );
               },
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),

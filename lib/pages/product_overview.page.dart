@@ -18,6 +18,25 @@ class ProductsOverviewPage extends StatefulWidget {
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<ProductList>(context, listen: false)
+        .loadProducts()
+        .then((value) {
+      setState(() => _isLoading = false);
+    });
+  }
+
+  Future<void> _refreshProducts(BuildContext context) {
+    return Provider.of<ProductList>(
+      context,
+      listen: false,
+    ).loadProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +67,11 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
             },
           ),
           Consumer<Cart>(
-            child:
-                IconButton(onPressed: () {
+            child: IconButton(
+                onPressed: () {
                   Navigator.of(context).pushNamed(AppRoutes.CART);
-                }, icon: Icon(Icons.shopping_cart)),
+                },
+                icon: Icon(Icons.shopping_cart)),
             builder: (ctx, cart, child) => BadgeManual(
               value: cart.itemsCount.toString(),
               child: child!,
@@ -59,7 +79,14 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           )
         ],
       ),
-      body: ProductGrid(showFavoriteOnly: _showFavoriteOnly),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+              onRefresh: () => _refreshProducts(context),
+              child: ProductGrid(showFavoriteOnly: _showFavoriteOnly),
+            ),
       drawer: AppDrawer(),
     );
   }
