@@ -20,13 +20,21 @@ class ProductGridItem extends StatelessWidget {
             // Navigator.of(context).push(MaterialPageRoute(
             //   builder: (ctx) => ProductDetailPage(product: product),
             // ));
-            Navigator.of(context)
+           Navigator.of(context)
                 .pushNamed(AppRoutes.PRODUCT_DETAIL, arguments: product);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/internet-img.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
+          // child: Image.network(
+          //   product.imageUrl,
+          //   fit: BoxFit.cover,
+          // ),
         ),
         footer: GridTileBar(
           title: Text(
