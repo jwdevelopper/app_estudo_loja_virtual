@@ -12,6 +12,7 @@ import 'package:gerencia_estado_provider/pages/product_form_page.dart';
 import 'package:gerencia_estado_provider/pages/product_overview.page.dart';
 import 'package:gerencia_estado_provider/pages/product_page.dart';
 import 'package:gerencia_estado_provider/utils/app.routes.dart';
+import 'package:gerencia_estado_provider/utils/custom_route.dart';
 import 'package:provider/provider.dart';
 
 // https://shop-coder-7e821-default-rtdb.firebaseio.com/
@@ -68,7 +69,13 @@ class MyApp extends StatelessWidget {
                 primary: Colors.purple,
                 secondary: Colors.deepOrange,
                 tertiary: Colors.tealAccent),
-            fontFamily: 'Lato'),
+            fontFamily: 'Lato',
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.iOS: CustomPageTransitionsBuilder(),
+                TargetPlatform.android: CustomPageTransitionsBuilder(),
+              }
+            )),
         // home: ProductsOverviewPage(),
         routes: {
           AppRoutes.AUTH_OR_HOME: (context) => AuthOrHomePage(),

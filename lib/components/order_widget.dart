@@ -14,39 +14,41 @@ class _OrderWidgetState extends State<OrderWidget> {
   bool _expanded = false;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          ListTile(
-            title: Text("R\$ ${widget.order.total.toStringAsFixed(2)}"),
-            subtitle: Text(
-              DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
+    final itemHeight = (widget.order.products.length * 25.0) + 10;
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      height: _expanded ? itemHeight + 85 : 85,
+      child: Card(
+        child: Column(
+          children: [
+            ListTile(
+              title: Text("R\$ ${widget.order.total.toStringAsFixed(2)}"),
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
+              ),
+              trailing: IconButton(
+                icon: Icon(_expanded
+                    ? Icons.expand_circle_down_sharp
+                    : Icons.expand_circle_down_outlined),
+                onPressed: () {
+                  setState(() {
+                    _expanded = !_expanded;
+                  });
+                },
+              ),
             ),
-            trailing: IconButton(
-              icon: Icon(_expanded
-                  ? Icons.expand_circle_down_sharp
-                  : Icons.expand_circle_down_outlined),
-              onPressed: () {
-                setState(() {
-                  _expanded = !_expanded;
-                });
-              },
-            ),
-          ),
-          if (_expanded)
-            Container(
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              height: _expanded ? itemHeight : 0,
               padding: EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 4,
               ),
-              height: (widget.order.products.length * 25.0) + 10,
               child: ListView(
                   children: widget.order.products.map(
                 (product) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -70,7 +72,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                 },
               ).toList()),
             )
-        ],
+          ],
+        ),
       ),
     );
   }

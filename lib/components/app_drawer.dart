@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gerencia_estado_provider/models/auth.dart';
+import 'package:gerencia_estado_provider/pages/orders_page.dart';
 import 'package:gerencia_estado_provider/utils/app.routes.dart';
+import 'package:gerencia_estado_provider/utils/custom_route.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -33,6 +35,9 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.ORDERS,
               );
+              // Navigator.of(context).pushReplacement(
+              //   CustomRoute(builder: (ctx) => OrdersPage())
+              // );
             },
           ),
           Divider(),
